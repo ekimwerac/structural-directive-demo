@@ -1,13 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { IsAuthDirective } from './is-auth.directive';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [IsAuthDirective], // Include the directive
+  template: `
+    <button (click)="toggleAuth()">Toggle Auth</button>
+    <p *appIsAuth="isAuthenticated">You have access to privileged information.</p>
+    <p *appIsAuth="!isAuthenticated">Access denied. Please log in.</p>
+  `,
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'structural-directive-demo';
+  isAuthenticated = false;
+
+  toggleAuth() {
+    this.isAuthenticated = !this.isAuthenticated;
+  }
 }
+
